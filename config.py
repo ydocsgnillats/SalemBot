@@ -1,4 +1,4 @@
-username = "REDDIT_USERNAME"
-password = "REDDIT_PASSWORD"
-client_id = "CLIENT_ID"
-client_secret = "CLIENT_SECRET"
+username = "REDDIT_USERNAME_HERE"
+password = "REDDIT_PASSWORD_HERE"
+client_id = "CLIENT_ID_HERE"
+client_secret = "CLIENT_SECRET_HERE"
