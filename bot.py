@@ -35,15 +35,15 @@ def post():
             print ("Done")
     
     #catch if posting too often, delay post by the necessary time
-    except praw.exception.APIException as e:
-        if (e.error_typer == "RATELIMIT"):
-            delay = re.search("(\d+) minutes", e.message)
+    except praw.exceptions.APIException as e:
+        if (e.error_type == "RATELIMIT"):
+            delay = re.search("(%d) minutes", e.message)
             if delay:
                 delay_seconds = float(int(delay.group(1)) * 60)
                 time.sleep(delay_seconds)
                 post()
             else: 
-                delay = re.search("(\d+) seconds", e.message)
+                delay = re.search("(%d) seconds", e.message)
                 delay_seconds = float(delay.group(1))
                 time.sleep(delay_seconds)
                 post()
