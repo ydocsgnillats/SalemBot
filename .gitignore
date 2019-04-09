@@ -114,3 +114,4 @@ dmypy.json
 .pyre/
 # Secrets
 config.py/
+config.py
