@@ -20,13 +20,16 @@ url = "https://imgur.com/a/xa6CM5g"
 def outreach():
     sub = reddit.subreddit('all')
     key = "salem"
-
-    for i in sub.search(key, limit=100):
-        user = i.author
-        message = ('Hey! I\'m a bot here to tell you about reddit.com/r/salemwitchtrials. \nWe are currently looking for more content and interest and we\'d love it if you checked us out! Additionally, feel free to message this bot if you feel like you would be a good fit to help moderate the sub! \n Thank you, \n SalemBot')
-        reddit.redditor(user).message('Salem Witch Trials', message, 
-                                    from_subreddit='salemwitchtrials')
-        print("Sent a message to " + user + "\n")
+    message_limit = 1
+    
+    while message_limit <=2:
+        for i in sub.search(key, limit=100):
+            user = i.author.name
+            message = ('Hey! I\'m a bot here to tell you about reddit.com/r/salemwitchtrials. \nWe are currently looking for more content and interest and we\'d love it if you checked us out! Additionally, feel free to message this bot if you feel like you would be a good fit to help moderate the sub! \n Thank you, \n SalemBot')
+            reddit.redditor(user).message('Salem Witch Trials', message, 
+                                        from_subreddit='salemwitchtrials')
+            print("Sent a message to " + user + "\n")
+            message_limit+=1
 
 def post():
     global subreddits
@@ -64,5 +67,5 @@ def post():
         if(errors >5):
             print("Program Crashed")
 
-post()
+#post()
 outreach()
