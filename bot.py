@@ -1,6 +1,7 @@
 import praw
 import config
 import time
+import sys
 import re
 
 #logging in to reddit using information from config.py
@@ -10,7 +11,8 @@ reddit = praw.Reddit(client_id=config.client_id,
                      username=config.username,
                      password=config.password)
 
-subreddits = ['salemwitchtrials', 'footfedoras']
+subreddits = ['salemwitchtrials']
+username=config.username
 pos = 0
 errors = 0
 
@@ -22,14 +24,14 @@ def outreach():
     key = "salem"
     message_limit = 1
     
-    while message_limit <=2:
+    while message_limit <=10:
         for i in sub.search(key, limit=100):
             user = i.author.name
+            message_limit+=1
             message = ('Hey! I\'m a bot here to tell you about reddit.com/r/salemwitchtrials. \nWe are currently looking for more content and interest and we\'d love it if you checked us out! Additionally, feel free to message this bot if you feel like you would be a good fit to help moderate the sub! \n Thank you, \n SalemBot')
             reddit.redditor(user).message('Salem Witch Trials', message, 
                                         from_subreddit='salemwitchtrials')
             print("Sent a message to " + user + "\n")
-            message_limit+=1
 
 def post():
     global subreddits
@@ -67,5 +69,31 @@ def post():
         if(errors >5):
             print("Program Crashed")
 
-#post()
-outreach()
+def postListen():
+    firstPost = True
+    old = []
+
+    while True:
+        try:
+            for s in subreddits:
+                for post in reddit.subreddit(s).new(limit=10):
+                    if firstPost is True:
+                        old.append(post.id)
+                    if post.id not in old:
+                        subject = 'New post in ' + str(post.subreddit)
+                        content = '[' + post.title + '](' + post.shortlink + ')'
+                        reddit.redditor(username).message(subject, content)
+                        print('New post! Link sent as message.')
+                        old.append(post.id)
+
+            time.sleep(5)
+            firstPost = False
+
+        except KeyboardInterrupt:
+            print('\n')
+            sys.exit(0)
+
+        except Exception as e:
+            print(e)
+
+postListen()
