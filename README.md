@@ -2,18 +2,27 @@
 
 This is a reddit bot that will have new features tested out/added to it over time.
 
+
+
 ### Requirements:
 
 Praw:
-[Documentation](https://praw.readthedocs.io)
 > pip install praw 
+[Documentation](https://praw.readthedocs.io)
+
+
 
 ### Setup:
 
 > Log into reddit with the profile you would like to use the bot on (or make a profile for the bot)
+
 > Create an [application here](www.reddit.com/prefs/apps)
+
 > Set the information in config.py to your username/password and bot id/secret
+
 > For any additional help setting up your own bot, [check this out](https://praw.readthedocs.io/en/latest/getting_started/quick_start.html)
+
+
 
 ### Features:
 

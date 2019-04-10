@@ -19,18 +19,17 @@ errors = 0
 title = "Witch Test Post"
 url = "https://imgur.com/a/xa6CM5g"
 
-def outreach():
+def outreach(key):
     sub = reddit.subreddit('all')
-    key = "salem"
     message_limit = 1
     
-    while message_limit <=10:
+    while message_limit <=5:
         for i in sub.search(key, limit=100):
             user = i.author.name
-            message_limit+=1
-            message = ('Hey! I\'m a bot here to tell you about reddit.com/r/salemwitchtrials. \nWe are currently looking for more content and interest and we\'d love it if you checked us out! Additionally, feel free to message this bot if you feel like you would be a good fit to help moderate the sub! \n Thank you, \n SalemBot')
+            message = ('Hey! I\'m a bot here to tell you about reddit.com/r/' + str(subreddits) + '\nWe are currently looking for more content and interest and we\'d love it if you checked us out! Additionally, feel free to message this bot if you feel like you would be a good fit to help moderate the sub! \n Thank you, \n SalemBot')
             reddit.redditor(user).message('Salem Witch Trials', message, 
                                         from_subreddit='salemwitchtrials')
+            message_limit+=1
             print("Sent a message to " + user + "\n")
 
 def post():
@@ -96,4 +95,21 @@ def postListen():
         except Exception as e:
             print(e)
 
-postListen()
+def popSubreddits(*argv):
+    global subreddits
+    for arg in argv:
+        subreddits.append(arg)
+        print("Added: r/" + arg + " to subreddit array.")
+
+if __name__ == '__main__':  #performs tasks below only if this file is ran as the main program
+    
+    print("Loading...")
+    #postListen()
+    #popSubreddits('askreddit', 'watches', 'diwhy') #change to take user input(even multiple inputs)
+    #outreach('witch') #change to take user input(with multiple words/spaces)
+
+
+
+#               TODO    
+#       add json functionality for keeping track of users, subreddits, etc?
+#       create a main file to run these from with a better UI and commands
