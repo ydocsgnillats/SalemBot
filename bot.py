@@ -68,7 +68,7 @@ def post():
         if(errors >5):
             print("Program Crashed")
 
-def postListen():
+def postListen():   #subreddit to listen to by user input
     firstPost = True
     old = []
 
