@@ -19,18 +19,17 @@ errors = 0
 title = "Witch Test Post"
 url = "https://imgur.com/a/xa6CM5g"
 
-def outreach(key):
+def outreach(sub_sent_from):
     sub = reddit.subreddit('all')
-    message_limit = 1
+    lim = 10
+    key = input("Search Term: ")
     
-    while message_limit <=5:
-        for i in sub.search(key, limit=100):
-            user = i.author.name
-            message = ('Hey! I\'m a bot here to tell you about reddit.com/r/' + str(subreddits) + '\nWe are currently looking for more content and interest and we\'d love it if you checked us out! Additionally, feel free to message this bot if you feel like you would be a good fit to help moderate the sub! \n Thank you, \n SalemBot')
-            reddit.redditor(user).message('Salem Witch Trials', message, 
-                                        from_subreddit='salemwitchtrials')
-            message_limit+=1
-            print("Sent a message to " + user + "\n")
+    for i in sub.search(key, limit=lim):
+        user = i.author.name
+        message = ('Hey! I\'m a bot here to tell you about reddit.com/r/' + sub_sent_from + '\nWe are currently looking for more content and interest and we\'d love it if you checked us out! Additionally, feel free to message this bot if you feel like you would be a good fit to help moderate the sub! \n Thank you, \n SalemBot')
+        reddit.redditor(user).message(sub_sent_from + " invite", message, 
+                        from_subreddit= sub_sent_from)
+        print("Sent a message to " + user)
 
 def post():
     global subreddits
@@ -104,6 +103,7 @@ def popSubreddits(*argv):
 if __name__ == '__main__':  #performs tasks below only if this file is ran as the main program
     
     print("Loading...")
+    #outreach('salemwitchtrials')
     #postListen()
     #popSubreddits('askreddit', 'watches', 'diwhy') #change to take user input(even multiple inputs)
     #outreach('witch') #change to take user input(with multiple words/spaces)
