@@ -3,6 +3,8 @@ import config
 import time
 import sys
 import re
+import json
+from prawcore import NotFound
 
 #logging in to reddit using information from config.py
 reddit = praw.Reddit(client_id=config.client_id,
@@ -11,7 +13,7 @@ reddit = praw.Reddit(client_id=config.client_id,
                      username=config.username,
                      password=config.password)
 
-subreddits = ['salemwitchtrials']
+subreddits = []
 username=config.username
 pos = 0
 errors = 0
@@ -49,6 +51,9 @@ def post():
             print ("Done")
     
     #catch if posting too often, delay post by the necessary time
+    except IndexError:
+        print("No subreddits selected. Try adding some with the popSubreddits command!") 
+
     except praw.exceptions.APIException as e:
         if (e.error_type == "RATELIMIT"):
             delay = re.search("(%d) minutes", e.message)
@@ -97,17 +102,33 @@ def postListen():   #subreddit to listen to by user input
 def popSubreddits(*argv):
     global subreddits
     for arg in argv:
-        subreddits.append(arg)
-        print("Added: r/" + arg + " to subreddit array.")
+        if sub_exists(arg):
+            subreddits.append(arg)
+            print("Added: r/" + arg + " to subreddit array.")
+        else:
+            print("The subreddit " + arg + " does not exist.")
+
+def clearSubreddits():
+    global subreddits
+    subreddits = ""
+    print("Subreddit list cleared.")
+
+def sub_exists(sub):
+    exists = True
+    try:
+        reddit.subreddits.search_by_name(sub, exact=True)  
+    except NotFound:
+        exists = False
+    return exists
 
 if __name__ == '__main__':  #performs tasks below only if this file is ran as the main program
     
     print("Loading...")
     #outreach('salemwitchtrials')
     #postListen()
-    #popSubreddits('askreddit', 'watches', 'diwhy') #change to take user input(even multiple inputs)
+    popSubreddits('askredddddit', 'watches', 'diwhy') 
     #outreach('witch') #change to take user input(with multiple words/spaces)
-
+    #post()
 
 
 #               TODO    
