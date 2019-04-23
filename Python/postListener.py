@@ -5,8 +5,8 @@ import time
 
 
 subreddits = []
-reddit = bot.reddit
-username=reddit.config.custom['username']
+reddit = bot.login()
+#username=reddit.config.custom['username']
 
 class PostListener(bot.Bot):
 

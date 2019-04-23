@@ -1,18 +1,26 @@
 import praw
+import prawcore
 import time
 import sys
 import re
 import json
-import info
 import postListener
 from prawcore import NotFound
 
-reddit = praw.Reddit('bot2',user_agent='Salem Bot V1.0')
+def login():
+    try:
+        reddit = praw.Reddit('bot2',user_agent='Salem Bot V1.0')
+        return reddit    
+    except prawcore.exceptions.OAuthException:
+        print("Wrong username or password")
+
 
 pos = 0
 errors = 0
-title = "Witch Test Post"
+title = "Test Post"
 url = "https://imgur.com/a/xa6CM5g"
+reddit = login()
+
 
 class Bot:
 
@@ -64,14 +72,60 @@ class Bot:
             exists = False
         return exists
 
+
+    def checkUser(self, name):
+        with open("files\\users.json") as f:
+            data = json.load(f)
+        for d in data['users']:
+            if d['Name'] == name:
+                message = (name + " is listed in users.json from the subreddit r/" + d['Subreddit'])
+                return True
+            else: 
+                message = (name + " was not found listed in users.json")
+                return False
+        print(message)
+        print(data)
+        return data
+
+
+    def addUser(self, name, sub):
+        username = name
+        subreddit = sub
+        check = Bot.checkUser(self, name)
+        if check == False:
+            with open("files\\users.json", "r+") as json_file:
+                data = json.load(json_file)
+                newUser =   {
+                    'Name': username,
+                    'Subreddit': subreddit
+                }
+                data['users'].append(newUser)
+                json_file.seek(0)
+                json.dump(data, json_file, indent=4)
+                json_file.truncate()
+        else: 
+            with open("files\\users.json") as json_file:
+                data = json.load(json_file)
+                for d in data['users']:
+                    if Bot.sub_exists(self, sub) and d['Name'] == name:
+                        d['Subreddit'].append(subreddit)
+                        json_file.seek(0)
+                        json.dump(data, json_file, indent=4)
+                        json_file.truncate()
+                    else:
+                        return("There was a problem adding this subreddit to " + username)
+
+
 def main():
     
+    b = Bot()
     print("Loading...")
-    #info.addUser('salem_bot', 'salemwitchtrials')
-    #info.checkUser('salem_bot')
+    b.addUser('salem_bot', 'salemwitchtrials')
+    b.checkUser('salem_bot')
     p = postListener.PostListener('watchuraffle')
     p.listen()
     
+
 if __name__ == '__main__': main() #runs main only if this file is ran as the main program
         
 

@@ -3,6 +3,22 @@
         {
             "Name": "testUser42",
             "Subreddit": "gaming"
+        },
+        {
+            "Name": "salem_bot",
+            "Subreddit": "salemwitchtrials"
+        },
+        {
+            "Name": "salem_bot",
+            "Subreddit": "salemwitchtrial"
+        },
+        {
+            "Name": "salem_bot",
+            "Subreddit": "salemwitchtrials"
+        },
+        {
+            "Name": "salem_bot",
+            "Subreddit": "salemwitchtrials"
         }
     ]
 }
